@@ -9,7 +9,7 @@ import 'adminbsb-materialdesign/css/themes/all-themes.css';
 class MainComponent extends React.Component {
     
     state = {
-        bodyClass: "theme-red ls-closed",
+        bodyClass: "theme-blue ls-closed",
         displayOverlay: "none",
         width:window.screen.width,
       };

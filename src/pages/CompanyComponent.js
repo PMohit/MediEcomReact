@@ -1,6 +1,12 @@
 import React from "react";
+import AuthHandler from "../utils/AuthHandler";
 
 class CompanyComponent extends React.Component {
+
+componentDidMount(){
+  AuthHandler.checkTokenExpirary();
+}
+
   render() {
     return (
       <section className="content">

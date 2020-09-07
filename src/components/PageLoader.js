@@ -18,7 +18,7 @@ class PageLoader extends React.Component {
             <p>Please wait...</p>
         </div>
     </div> 
-        );
+     );
     }
 } 
 

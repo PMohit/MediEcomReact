@@ -32,6 +32,26 @@ class AuthHandler{
 
         }
     }
+
+    static getLoginToken(){
+        return reactLocalStorage.get("token")
+    }
+
+    static getRefreshToken(){
+        return reactLocalStorage.get("refresh")
+    }
+
+    static logoutUser(){
+         reactLocalStorage.remove("token");
+          reactLocalStorage.remove("refresh");
+    }
+
+    static checkTokenExpirary(){
+       var expire= false;
+       var token = this.getLoginToken();
+       var tokenArrary = token.split(".");
+       var jwt = JSON.parse(atob(tokenArrary[1]));
+   }
 }
 
-export default AuthHandler;
+export default AuthHandler; 

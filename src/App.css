@@ -1,0 +1,25 @@
+:root{
+  --mainBlue:#2a2a72;
+  --lightBlue:#009ffd;
+  --mainWhite:#f3f3f3;
+  --mainDark:#2352;
+  --mainYellow:#ffa 352;
+}
+
+body{
+  font-family: 'Lobster', cursive !important;
+  background: var(--mainWhite) !important;
+  color: var(--mainDark) !important;
+
+}
+.text-title{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+}
+.text-blue{
+  color:var(--mainBlue);
+}
+.text-brigth{
+  color:var(--lightBlue);
+}

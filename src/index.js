@@ -4,18 +4,26 @@ import {BrowserRouter as Router,Route, Switch} from 'react-router-dom';
 import login from './pages/login';
 import MainComponent from './components/MainComponent';
 import { PrivateRoute } from './utils/PrivateRoute';
+import { PrivateRouteNew } from './utils/PrivateRouteNew';
+import HomeComponent from './pages/HomeComponent';
+import CompanyComponent from './pages/CompanyComponent';
 
 
 ReactDOM.render(
     <Router>
         <Switch>
              <Route exact path="/" component={login}></Route>
-             <PrivateRoute exact path="/home" component={MainComponent}></PrivateRoute>
+             <PrivateRouteNew 
+             exact path="/home"
+             activepage="0" 
+              
+             page={<HomeComponent/>}>
+
+             </PrivateRouteNew>
+             <PrivateRouteNew exact path="/company"   activepage="1"   page={<CompanyComponent/>}></PrivateRouteNew>
         </Switch>
     </Router>
     , document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+ 
  

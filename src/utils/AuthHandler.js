@@ -46,11 +46,21 @@ class AuthHandler{
           reactLocalStorage.remove("refresh");
     }
 
-    static checkTokenExpirary(){
+    static checkTokenExpire(){
        var expire= false;
        var token = this.getLoginToken();
        var tokenArrary = token.split(".");
        var jwt = JSON.parse(atob(tokenArrary[1]));
+      // console.log(jwt);
+      if(jwt && jwt.exp && Number.isFinite(jwt.exp)){
+          expire=jwt.exp*10000;
+      }else{
+          expire= false;
+      }
+if(!expire){
+    return false;
+}
+     return Date.now()>expire;
    }
 }
 

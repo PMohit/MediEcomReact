@@ -4,7 +4,7 @@ class OverLay extends React.Component {
     render(){
         return (
 
-<div class="overlay" style={{display:this.props.display}}></div>
+<div className="overlay" style={{display:this.props.display}}></div>
         );   
     }
 } 

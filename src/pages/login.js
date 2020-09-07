@@ -5,6 +5,8 @@ import 'adminbsb-materialdesign/plugins/node-waves/waves.css'
 import 'adminbsb-materialdesign/plugins/animate-css/animate.css'
 import 'adminbsb-materialdesign/css/style.css'
 import AuthHandler from '../utils/AuthHandler'
+import Config from '../utils/Config'
+import { Redirect } from 'react-router-dom'
 
 class Login extends React.Component {
 
@@ -37,9 +39,10 @@ class Login extends React.Component {
     handleAjaxResponse = (data) => {
         console.log(data);
         if (data.error) {
-            this.setState({loginStatus: 4})
+            this.setState({loginStatus: 4});
         } else {
-            this.setState({loginStatus: 3})
+            this.setState({loginStatus: 3});
+            window.location=Config.homeUrl;
         }
     };
 
@@ -65,6 +68,10 @@ class Login extends React.Component {
     };
 
     render() {
+
+        if(AuthHandler.loggedIn()){
+            return <Redirect to= {Config.homeUrl}></Redirect>;
+        }
 
         document.body.className = "login-page";
 

@@ -22,6 +22,16 @@ class AuthHandler{
                 "message":"Error !! During Login"});
         });
     }
+
+    static loggedIn(){
+        if(reactLocalStorage.get('token') && reactLocalStorage.get("refresh")){
+            return true;
+
+        }else{
+            return false;
+
+        }
+    }
 }
 
 export default AuthHandler;

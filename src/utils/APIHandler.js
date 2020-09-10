@@ -7,15 +7,44 @@ const { default: Config } = require("./Config");
 
 class APIHandler {
     async checkLogin(){
-        if(AuthHandler.checkTokenExpirary()){
+        if(AuthHandler.checkTokenExpire()){
+            try{
             var response = await Axios.post(Config.refreshApiUrl,{
                 refresh:AuthHandler.getRefreshToken(),
             });
+            reactLocalStorage.set("token",response.data.access);
+        }
+        catch(error){
+          console.log(error);
+          //NOt using valid token refresh
+          AuthHandler.logoutUser();
+         window.location="/";
+        }
         }
     }
 
  async saveCompanyData(name,license_no,address,contact_no,email,description){
-     this.checkLogin();
+    await this.checkLogin();
+     var response = await Axios.post(Config.companyApiUrl,{
+         name:name,
+         license_no:license_no,
+         address:address,
+         contact_no:contact_no,
+         email:email,
+         description:description,
+     },
+     { headers: { Authorization: "Bearer " + AuthHandler.getLoginToken() } }
+     );
+     return response;
+ }
+
+ 
+ async fetchAllCompany(){
+    await this.checkLogin();
+      var response = await Axios.get(Config.companyApiUrl,{
+        headers: { Authorization: "Bearer " + AuthHandler.getLoginToken() }
+      });
+      return response;
  }
 
 }

@@ -35,7 +35,7 @@ componentDidMount(){
 async formSubmit(event){
   event.preventDefault();
   this.setState({btnMessage:1});
-  
+
   var apiHandler = new APIHandler();
   var response = await apiHandler.editCompanyData(
     event.target.name.value,
@@ -81,11 +81,14 @@ viewCompanyDetails=(company_id)=>{
 };
 
 AddCompanyBank=()=>{
-   this.props.history.push("/addCompanyBank/"+this.props.match.params.id );
+   this.props.history.push("/addCompanyBank/"+ this.props.match.params.id );
    // console.log(this.props);
-
 };
 
+EditCompanyBank=(company_bank_id)=>{
+    //console.log(company_bank_id);
+    this.props.history.push("/editCompanyBank/"+this.props.match.params.id +"/" +company_bank_id);
+ };
 
 
   render() {
@@ -253,6 +256,10 @@ AddCompanyBank=()=>{
                                            <td>{company.ifsc_no}</td>                                        
                                            <td>{new Date(company.added_on).toLocaleString()}</td>
                                            <td>
+                                           <button className="btn btn-block btn-warning" 
+                                           onClick={()=> this.EditCompanyBank(company.id)}>
+                                              EDIT
+                                           </button>
                                            <button className="btn btn-block btn-danger">
                                               DELETE
                                            </button>

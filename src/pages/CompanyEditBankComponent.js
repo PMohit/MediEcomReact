@@ -4,7 +4,7 @@ import APIHandler from "../utils/APIHandler";
 
 import { Link } from "react-router-dom";
 
-class CompanyAddBankCompany extends React.Component {
+class CompanyEditBankCompany extends React.Component {
 
     constructor(props){
         super(props);
@@ -16,21 +16,19 @@ class CompanyAddBankCompany extends React.Component {
         errorMessage:"",
         btnMessage:0,
         sendData:false,
+        bank_account_no:"",
+        ifsc_no:"",
     };
-
-componentDidMount(){
- 
-  console.log(AuthHandler.checkTokenExpire());
-}
 
 async formSubmit(event){
   event.preventDefault();
   this.setState({btnMessage:1});
 
   var apiHandler = new APIHandler();
-  var response =await apiHandler.saveCompanyBankData(
+  var response =await apiHandler.editCompanyBankData(
     event.target.bank_account_no.value,
     event.target.ifsc_no.value,
+    this.props.match.params.company_id,    
     this.props.match.params.id    
     );
     console.log(response);   
@@ -38,6 +36,23 @@ async formSubmit(event){
     this.setState({errorRes:response.data.error});
     this.setState({errorMessage:response.data.message});
     this.setState({sendData:true});
+}
+
+componentDidMount(){
+  this.fetchCompanyBankData();
+
+  console.log(AuthHandler.checkTokenExpire());
+}
+ 
+async fetchCompanyBankData(){
+ var apiHandler = new APIHandler();
+ var companydata = await apiHandler.fetchAllCompanyBankDetails(this.props.match.params.id);
+ console.log(companydata);
+ //this.setState({companyDataList:companydata.data.data});
+  this.setState({bank_account_no:companydata.data.data.bank_account_no});
+ this.setState({ifsc_no:companydata.data.data.ifsc_no});  
+ this.setState({dataLoaded:true});
+
 }
 
  
@@ -56,7 +71,7 @@ async formSubmit(event){
                         <div className="header">
                         
                             <h2>
-                                Add Company Bank #{this.props.match.params.id}
+                                Edit Company Bank #{this.props.match.params.id}
                             </h2>
                              
                         </div>
@@ -66,6 +81,7 @@ async formSubmit(event){
                                 <div className="form-group">
                                     <div className="form-line">
                                         <input type="text" id="bank_account_no" name="bank_account_no" className="form-control" 
+                                        defaultValue={this.state.bank_account_no}
                                         placeholder="Enter Company Account No"/>
                                     </div>
                                 </div>
@@ -73,6 +89,7 @@ async formSubmit(event){
                                 <div className="form-group">
                                     <div className="form-line">
                                         <input type="text" id="ifsc_no" name="ifsc_no" className="form-control" 
+                                           defaultValue={this.state.ifsc_no}
                                         placeholder="Enter Company IFSC No"/>
                                     </div>
                                 </div>
@@ -82,15 +99,15 @@ async formSubmit(event){
                                className = "btn btn-primary m-t-15 wave-effect btn-block"
                                >
                                {this.state.btnMessage == 0 ?
-                                "Add Company Bank"
-                                :"Adding Company Bank Please Waitt"
+                                "Edit Company Bank"
+                                :"Edting Company Bank Please Waitt"
                                 }
                                </button>
                                  <br/>
                                  {   this.state.errorRes == false && this.state.sendData==true? (
                                            <div className="alert alert-success">
                                   <strong>success!!</strong> {this.state.errorMessage}
-                                  <Link to={"/companydetails/"+this.props.match.params.id} className='btn btn-info'>
+                                  <Link to={"/companydetails/"+this.props.match.params.company_id} className='btn btn-info'>
                                       Back to comapny Details
                                   </Link>
                               </div>
@@ -124,4 +141,4 @@ async formSubmit(event){
   }
 }
 
-export default CompanyAddBankCompany;
+export default CompanyEditBankCompany;

@@ -57,9 +57,9 @@ class Sidebar extends React.Component {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    SuperCoders
+                    Admin
                   </div>
-                  <div className="email">admin.mshostech@gmail.com</div>
+                  <div className="email">admin.mohitstech@gmail.com</div>
                   <div className="btn-group user-helper-dropdown">
                     <i
                       className="material-icons"

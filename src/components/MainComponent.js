@@ -51,12 +51,14 @@ class MainComponent extends React.Component {
     }
 
     render(){
+        console.log(this.props);
         if(this.state.width > 1150){
             document.getElementById("root").className = "theme-blue ";
         }else{
             
             document.getElementById("root").className = this.state.bodyClass;
         }
+      var Page = this.props.page;
 
         return( <>
         <GoogleFontLoader
@@ -78,7 +80,7 @@ class MainComponent extends React.Component {
          <OverLay display={this.setState.displayOverlay}/>
          <Navbar onBarClick={this.onBarClick}/>
          <Sidebar activepage={this.props.activepage}/>
-         <>{this.props.page}</>
+         <Page {...this.props}/>
         </>      
         );    
 }

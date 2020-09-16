@@ -104,6 +104,17 @@ async editCompanyBankData(bank_account_no,ifsc_no,company_id,id){
    return response;
 }
 
+ 
+async fetchCompanyOnly(){
+  await this.checkLogin();
+    var response = await Axios.get(Config.companyOnlyApiUrl,{
+      headers: { Authorization: "Bearer " + AuthHandler.getLoginToken() }
+    });
+    return response;
+}
+
+
+
 }
 
 export default APIHandler;

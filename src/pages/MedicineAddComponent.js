@@ -17,6 +17,12 @@ class MedicineAddCompany extends React.Component {
         btnMessage:0,
         sendData:false,
         companylist:[],
+        medicinedetails:[{
+          "salt_name":"",
+          "salt_qty":"",
+          "salt_qty_type":"",
+          "description":""        
+        }],
     };
 
 componentDidMount(){
@@ -30,10 +36,22 @@ async formSubmit(event){
   this.setState({btnMessage:1});
 
   var apiHandler = new APIHandler();
-  var response =await apiHandler.saveCompanyBankData(
-    event.target.bank_account_no.value,
-    event.target.ifsc_no.value,
-    this.props.match.params.id    
+  var response = await apiHandler.saveMedicineData(
+    event.target.name.value,
+    event.target.medical_typ.value,
+    event.target.buy_price.value,
+    event.target.sell_price.value,
+    event.target.c_gst.value,
+    event.target.s_gst.value,
+    event.target.batch_no.value,
+    event.target.shelf_no.value,
+    event.target.expire_date.value,
+    event.target.mfg_date.value,
+    event.target.company_id.value,
+    event.target.description1.value,
+    event.target.in_stock_value.value,
+    event.target.qty_in_strip.value,
+      this.state.medicinedetails
     );
     console.log(response);   
     this.setState({btnMessage:0});
@@ -48,8 +66,41 @@ async LoadCompany(){
    this.setState({companylist:companydata.data});
   
 }
+
+RemoveItems=()=>{
+  if(this.state.medicinedetails.length !=1){
+
+    this.state.medicinedetails.pop(this.state.medicinedetails.length-1);
+  }
+  this.setState({});
+};
+
+AddItem=()=>{
+  var item ={
+       salt_name:"",
+       salt_qty:"",
+       salt_qty_type:"",
+       description:""
+  };
+  this.state.medicinedetails.push(item);
+  this.setState({});
+}; 
+
+handleInput=(event)=>{
+  // console.log(event.target.name);
+  // console.log(event.target.value);
+  // console.log(event.target.getAttribute("data-index"));
  
-  render() {
+  var keyname=event.target.name;
+  var value=event.target.value;
+  var index=event.target.getAttribute("data-index");
+  this.state.medicinedetails[index][keyname]=value;
+  this.setState({});
+   console.log(this.state.medicinedetails);
+};
+
+
+render() {
     return (
       <section className="content">
         <div className="container-fluid">
@@ -143,7 +194,7 @@ async LoadCompany(){
                                 <label htmlFor="description">Description</label>
                                 <div className="form-group">
                                     <div className="form-line">
-                                        <input type="text" id="description" name="description" className="form-control" 
+                                        <input type="text" id="description1" name="description1" className="form-control" 
                                         placeholder="Enter Description"/>
                                     </div>
                                 </div>
@@ -163,14 +214,68 @@ async LoadCompany(){
                                 </div>
                                 <label htmlFor="qty_in_strip">Company</label>
                                 <div className="form-group">
-                                <select className="form-control">
-                                   {this.state.companylist.map((item=>(
-                                     <option value={item.id}>{item.name}</option>
-                                   )))}
-                                </select>
-                                     
+                                <select className="form-control show-tick" name="company_id" id="company_id" >
+                                   {this.state.companylist.map((item)=> (
+                                     <option key={item.id} value={item.id}>{item.name}</option>
+                                   ))}
+                               </select>                                     
                                 </div>
                                 
+                                <div className="form-group">
+                                <div className="col-lg-6">
+                                <button 
+                                className ="btn btn-block btn-success" onClick={this.AddItem} type="button">Add Details</button>                                 </div>
+                                <div className="col-lg-6">
+                                <button 
+                                  className = "btn btn-block btn-danger" onClick={this.RemoveItems} type="button">Remove Details</button>                           </div>
+                                </div>
+                                {this.state.medicinedetails.map((item,index)=> (
+                                   <div className="form-group row" key={index.id}>
+                                   
+                                   <div className="col-lg-3">
+                                   <label htmlFor="qty_in_strip">Salt Name</label>
+                                   <div className="form-line">
+                                   <input type="text" id="salt_name" name="salt_name" className="form-control" 
+                                       onChange={this.handleInput}
+                                        data-index={index}
+                                        placeholder="Enter Salt Name"/>
+                                   </div>
+                                   </div>
+
+                                   <div className="col-lg-3">
+                                   <label htmlFor="qty_in_strip">Salt Qty</label>
+                                   <div className="form-line">
+                                   <input type="text" id="salt_qty" name="salt_qty" className="form-control" 
+                                        onChange={this.handleInput}
+                                        data-index={index}
+                                        placeholder="Enter Salt Quantity"/>
+                                   </div>
+                                   </div>
+
+                                   <div className="col-lg-3">
+                                   <label htmlFor="qty_in_strip">Salt Qty Type</label>
+                                   <div className="form-line">
+                                   <input type="text" id="salt_qty_type" name="salt_qty_type" className="form-control" 
+                                        onChange={this.handleInput}
+                                        data-index={index}
+                                        placeholder="Enter Salt Qty Type"/>
+                                   </div>
+                                   </div>
+
+                                   <div className="col-lg-3">
+                                   <label htmlFor="qty_in_strip">Description</label>
+                                   <div className="form-line">
+                                   <input type="text" id="description" name="description" className="form-control" 
+                                        onChange={this.handleInput}
+                                        data-index={index}
+                                        placeholder="Enter Description "/>
+                                   </div>
+                                   </div>
+
+
+                                   </div>
+                                
+                                ))}
                                <br/>
                                <button type="submit"
                                className = "btn btn-primary m-t-15 wave-effect btn-block"

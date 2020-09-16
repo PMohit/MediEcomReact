@@ -113,7 +113,46 @@ async fetchCompanyOnly(){
     return response;
 }
 
-
+ async saveMedicineData(
+  name,
+  medical_typ,
+   buy_price,
+   sell_price,
+  c_gst,
+   s_gs,
+  batch_no,
+  shelf_no,
+   expire_date,
+   mfg_date,
+   company_id,
+   description,
+   in_stock_total,
+   qty_in_strip,
+   medicinedetails){
+     
+    await this.checkLogin();
+    var response = await Axios.post(Config.medicineApiUrl,{
+      name:name,
+      medical_typ:medical_typ,
+      buy_price:buy_price,
+      sell_price:sell_price,
+      c_gst:c_gst,
+      s_gs:s_gs,
+      batch_no:batch_no,
+      shelf_no:shelf_no,
+      expire_date:expire_date,
+      mfg_date:mfg_date,
+      company_id:company_id,
+      description:description,
+      in_stock_total:in_stock_total,
+      qty_in_strip:qty_in_strip,
+      medicinedetails:medicinedetails,
+                
+    },
+    { headers: { Authorization: "Bearer " + AuthHandler.getLoginToken() } }
+    );
+    return response;
+ }
 
 }
 
